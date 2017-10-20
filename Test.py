@@ -4,23 +4,30 @@ from IPython import get_ipython
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-data_train = pd.read_csv('/home/keldendraduldorji/Desktop/KDD/train.csv')
-data_test = pd.read_csv('/home/keldendraduldorji/Desktop/KDD/test.csv')
+Grades = pd.read_csv('Grades_Students.csv', sep= ',', header=None)
+Student = pd.read_csv('student2.csv')
 #Picks up 3 random samples
-data_train.sample(3)
-#Create a barplot that has assigned x, y values and also legend title name "Sex"
-#sns.barplot(x="Embarked", y="Survived", hue="Sex", data=data_train)
-#plt.show() # Visualizing the data
-#sns.pointplot(x="Pclass", y="Survived", hue="Sex", data=data_train,
-              #palette={"male": "blue", "female": "pink"},
-              #markers=["*", "o"], linestyles=["-", "--"])
+Grades.sample(3)
+sns.barplot(x="Assessment", y="Grade", hue="Type of marking", data=Grades)
+plt.show() 
+print Grades.values
+print Grades
+plt.bar(Grades[:,0], Grades[:,1], color='g')
+plt.ylabel('Frequency')
+plt.xlabel('Words')
+plt.title('Title')
+
+plt.show()
+sns.pointplot(x="Pclass", y="Survived", hue="Sex", data=Grades,
+              palette={"male": "blue", "female": "pink"},
+              markers=["*", "o"], linestyles=["-", "--"])
 
 #sns pointplot function creates a pointplot that estimates central tendency for
 #a numeric variable. Your x and y values are assigned along with a legend title.
 #Regarding data , palette assigns a color to a variable. Markers are the symbols of the
 #legends in this case male and female. linestyles are used to specify whether a line in the graph looks like
 # ----- or straight line.
-#plt.show()
+plt.show()
 
 
 def simplify_ages(df):
