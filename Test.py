@@ -4,13 +4,12 @@ from IPython import get_ipython
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-data_train = pd.read_csv('/home/keldendraduldorji/Desktop/KDD/train.csv')
-data_test = pd.read_csv('/home/keldendraduldorji/Desktop/KDD/test.csv')
+Grades = pd.read_csv('Grades_Students.csv')
+Student = pd.read_csv('student2.csv')
 #Picks up 3 random samples
 data_train.sample(3)
-#Create a barplot that has assigned x, y values and also legend title name "Sex"
-#sns.barplot(x="Embarked", y="Survived", hue="Sex", data=data_train)
-#plt.show() # Visualizing the data
+sns.barplot(x="Assessment", y="Grade", hue="Type of marking", data=Grades)
+plt.show() 
 #sns.pointplot(x="Pclass", y="Survived", hue="Sex", data=data_train,
               #palette={"male": "blue", "female": "pink"},
               #markers=["*", "o"], linestyles=["-", "--"])
