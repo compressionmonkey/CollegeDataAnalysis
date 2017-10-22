@@ -3,31 +3,37 @@ import pandas as pd
 from IPython import get_ipython
 import seaborn as sns
 import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.style.use('ggplot')
 
-Grades = pd.read_csv('Grades_Students.txt')
+ts = pd.Series(np.random.randn(1000), index=pd.date_range('1/1/2000', periods=1000))
+Grades = pd.read_csv('Grades.txt')
 Student = pd.read_csv('student.txt')
 #Picks up 3 random samples
 Grades.sample(3)
-sns.barplot(x="Assessment", y="Grade", hue="Type of marking", data=Grades)
+ax = Grades['Weight'].plot(kind='bar', title='Weightage', figsize=(15,10), legend=False, fontsize=12)
+ax.set_xlabel("Weightage", fontsize=12)
+ax.set_ylabel("Frequency", fontsize=12)
+#sns.barplot(x="Weight", y="Grade", hue="Type of marking", data=Grades)
 plt.show()
-print Grades.values
-print Grades
-plt.bar(Grades[:,0], Grades[:,1], color='g')
-plt.ylabel('Frequency')
-plt.xlabel('Words')
-plt.title('Title')
-
-plt.show()
-sns.pointplot(x="Pclass", y="Survived", hue="Sex", data=Grades,
-              palette={"male": "blue", "female": "pink"},
-              markers=["*", "o"], linestyles=["-", "--"])
-
-#sns pointplot function creates a pointplot that estimates central tendency for
-#a numeric variable. Your x and y values are assigned along with a legend title.
-#Regarding data , palette assigns a color to a variable. Markers are the symbols of the
-#legends in this case male and female. linestyles are used to specify whether a line in the graph looks like
-# ----- or straight line.
-plt.show()
+#print Grades.values
+#print Grades
+# plt.bar(Grades[:,0], Grades[:,1], color='g')
+# plt.ylabel('Frequency')
+# plt.xlabel('Words')
+# plt.title('Title')
+#
+# plt.show()
+# sns.pointplot(x="Pclass", y="Survived", hue="Sex", data=Grades,
+#               palette={"male": "blue", "female": "pink"},
+#               markers=["*", "o"], linestyles=["-", "--"])
+#
+# #sns pointplot function creates a pointplot that estimates central tendency for
+# #a numeric variable. Your x and y values are assigned along with a legend title.
+# #Regarding data , palette assigns a color to a variable. Markers are the symbols of the
+# #legends in this case male and female. linestyles are used to specify whether a line in the graph looks like
+# # ----- or straight line.
+# plt.show()
 
 
 def simplify_ages(df):
