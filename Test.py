@@ -165,3 +165,5 @@ predictions = clf.predict(data_test.drop('PassengerId', axis=1))
 output = pd.DataFrame({ 'PassengerId' : ids, 'Survived': predictions })
 # output.to_csv('titanic-predictions.csv', index = False)
 output.head()
+
+#troy's comment
