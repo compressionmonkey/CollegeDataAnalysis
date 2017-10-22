@@ -4,8 +4,8 @@ from IPython import get_ipython
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-Grades = pd.read_csv('Grades_Students.csv', sep= ',', header=None)
-Student = pd.read_csv('student2.csv')
+Grades = pd.read_csv('Grades_Students.txt')
+Student = pd.read_csv('student.txt')
 #Picks up 3 random samples
 Grades.sample(3)
 sns.barplot(x="Assessment", y="Grade", hue="Type of marking", data=Grades)
