@@ -20,7 +20,6 @@ def get_all_data(sheet_in):
           for column in col_range:
             print row, column
 
-
       wb.copy_worksheet()
       wb.save('Final_Copy_Hiace_2016.xlsx')
 
