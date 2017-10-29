@@ -1,12 +1,10 @@
 # Read in excel data
-from openpyxl.workbook.
 from openpyxl import Workbook
 from openpyxl import load_workbook
 wb = load_workbook('Hiace2015.xlsx') #explicitly loading workbook, will automate later
 
-# grab active worksheet in current workbook
-#ws = wb.active
-print wb.get_sheet_names()
+sheetnames = list(wb.get_sheet_names())
+print sheetnames
 N = len(wb.rows)
 d = wb.cell(row=4, column=2, value=10)
 print d
@@ -19,15 +17,15 @@ def get_all_data(sheet_in):
       Final_copy.title = "Hiace Details"
       Final_copy = Final_copy["Hiace Details"]
       for row in row_range:
-      #for row in ws.iter_rows(min_row=1, max_col=3, max_row=2):
-        for column in col_range:
-          wb.copy_worksheet()
+          for column in col_range:
+            print row, column
+
+
+      wb.copy_worksheet()
+      wb.save('Final_Copy_Hiace_2016.xlsx')
 
 
             # create csv file that has all details to report on
-# #
-# #get max columns and rows
-# #sheet = wb.get_sheet_by_name('15-9-17')
 # print ("Rows: ", sheet.max_row) # for debugging purposes
 # print ("Columns: ", sheet.max_column) # for debugging purposes
 # last_data_point = ws.cell(row = sheet.max_row, column = sheet.max_column).coordinate
