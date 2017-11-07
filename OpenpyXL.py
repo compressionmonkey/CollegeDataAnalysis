@@ -1,24 +1,22 @@
-
-
-
-
 # Read in excel data
 from openpyxl import workbook
 from openpyxl import load_workbook
 wb = load_workbook('Hiace2015.xlsx', data_only=True) #show real number instead of excel formulas
-
+print wb.worksheets
 for sheet in wb.worksheets:
     for irow in range(11,32): # row 11 to 31
-        #print row
         row = sheet[irow]
-        for icell in range(2,13):
+        for icell in range(2,13): # cell C to M
             cell = row[icell]
             #if cell.coordinate > 'C10' and cell.coordinate < 'D12':
             print "You are currently on sheet ", sheet.title, 'and cell number', cell.coordinate
                 #print cell.coordinate
             print cell.value
 
-    break
+Final_ws = wb.create_sheet()
+Final_ws.title = "All Data"
+wb.save('Hiace2015New.xlsx')
+
 
 
 
