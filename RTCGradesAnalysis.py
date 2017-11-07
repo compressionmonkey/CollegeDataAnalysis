@@ -1,20 +1,29 @@
 import numpy as np
 import pandas as pd
-from IPython import get_ipython
+#from IPython import get_ipython
 import seaborn as sns
 import matplotlib.pyplot as plt
 import matplotlib
 matplotlib.style.use('ggplot')
 
 ts = pd.Series(np.random.randn(1000), index=pd.date_range('1/1/2000', periods=1000))
-Grades = pd.read_csv('Grades.txt')
-Student = pd.read_csv('student.txt')
+Grades = pd.read_csv('/home/troy/Downloads/grades.txt')
+Student = pd.read_csv('/home/troy/Downloads/student2.txt')
 #Picks up 3 random samples
-Grades.sample(3)
-ax = Grades['Weight'].plot(kind='bar', title='Weightage', figsize=(15,10), legend=False, fontsize=12)
-ax.set_xlabel("Weightage", fontsize=12)
-ax.set_ylabel("Frequency", fontsize=12)
-#sns.barplot(x="Weight", y="Grade", hue="Type of marking", data=Grades)
+reducedGrades = Grades.sample(300)
+#ax = reducedGrades['Weight'].plot(kind='bar', title='Weightage', figsize=(15,10), legend=False, fontsize=12)
+#ax.set_xlabel("Weight", fontsize=12)
+#ax.set_ylabel("MaxMarks", fontsize=12)
+
+#sns.lmplot(x="Weight", y="Grade", hue="Type of marking", data=reducedGrades)
+sns.lmplot('Weight', # Horizontal axis
+           'Grade', # Vertical axis
+           data=reducedGrades, # Data source
+           fit_reg=False, # Don't fix a regression line
+           hue="MaxMarks", # Set color
+           scatter_kws={"marker": "D", # Set marker style
+                        "s": 100}) # S marker size
+
 plt.show()
 #print Grades.values
 #print Grades
