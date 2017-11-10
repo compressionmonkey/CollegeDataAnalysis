@@ -1,19 +1,48 @@
 # Read in excel data
+from openpyxl import utils
 from openpyxl import workbook
 from openpyxl import load_workbook
 wb = load_workbook('Hiace2015.xlsx', data_only=True) #show real number instead of excel formulas
 print wb.worksheets
 
+startRow = 0
+endRow = 0
+startCol = 0
+endCol = 0
+
+
 for sheet in wb.worksheets:
-    for irow in range(11,32): # row 11 to 31
+    for row in sheet.iter_rows():
+        #print row
+        for cell in row:
+            if cell.value == 'SL #':
+                coord = cell.coordinate
+                t = utils.coordinate_from_string(coord)
+                startCol = utils.column_index_from_string(t[0])
+                #startCol = t[0]
+                startRow = t[1]+4
+
+            cellValue = cell.value
+            if type(cellValue) is unicode:
+
+                if cellValue.strip() == 'Total':
+                    coord = cell.coordinate
+                    t = utils.coordinate_from_string(coord)
+                    endCol = utils.column_index_from_string(t[0])+7
+                    #startCol = t[0]
+                    endRow = t[1]-1
+
+    for irow in range(startRow, endRow):  # row 11 to 31
         row = sheet[irow]
-        cell = row[2:13]
-        if cell.value == "1" or cell.coordinate == "C11":
-            for icell in range(2, 13):  # cell C to M
-                cell = row[irow]
-               #if cell.coordinate > 'C10' and cell.coordinate < 'D12':
+        for icell in range(startCol, endCol):  # cell C to M
+            if cell.coordinate == "1":
+                a = cell.coordinate
+                a = a + 1
+
+            cell = row[icell]
+            # if cell.coordinate > 'C10' and cell.coordinate < 'D12':
             print "You are currently on sheet ", sheet.title, 'and cell number', cell.coordinate
-                #print cell.coordinate
+            # print cell.coordinate
             print cell.value
 
 print ("Highest col",icell.get_highest_column())
