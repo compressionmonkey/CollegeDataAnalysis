@@ -6,10 +6,13 @@ import csv
 ofile = open('/home/troy/Downloads/rtc_vehicles.csv', "wb")
 writer = csv.writer(ofile, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
 header = []
+header.append('Sheet Name')
 header.append('Date')
 header.append('KM Covered')
 header.append('Amount$')
 writer.writerow(header)
+
+#for look finding xlsx files
 # Read in excel data
 wb = load_workbook('/home/troy/Downloads/HiaceBusPOL2015.xlsx', data_only=True)
 
@@ -19,6 +22,7 @@ startCol = 0
 endCol = 0
 
 for sheet in wb.worksheets:
+    title = sheet.title
     for row in sheet.iter_rows():
         for cell in row:
             cellValue = cell.value
@@ -38,6 +42,7 @@ for sheet in wb.worksheets:
     for irow in range(startRow, endRow):
         row = sheet[irow]
         rowOut = []
+        rowOut.append(title)
         for icell in range(startCol, endCol):
             cell = row[icell]
             cellValue = cell.value
