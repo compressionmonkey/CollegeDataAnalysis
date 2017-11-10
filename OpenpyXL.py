@@ -11,27 +11,32 @@ startCol = 0
 endCol = 0
 
 
+
 for sheet in wb.worksheets:
     for row in sheet.iter_rows():
         #print row
         for cell in row:
-            if cell.value == 'SL #':
+            if cell.value == 'SL #': # Sets a condition for finding SL to assign values to our range
                 coord = cell.coordinate
                 t = utils.coordinate_from_string(coord)
                 startCol = utils.column_index_from_string(t[0])
                 #startCol = t[0]
                 startRow = t[1]+4
-
+#
             cellValue = cell.value
             if type(cellValue) is unicode:
-
                 if cellValue.strip() == 'Total':
                     coord = cell.coordinate
                     t = utils.coordinate_from_string(coord)
-                    endCol = utils.column_index_from_string(t[0])+7
+                    endCol = utils.column_index_from_string(t[0])+8
                     #startCol = t[0]
                     endRow = t[1]-1
 
+                if cellValue.strip() == 'Date' and cellValue.strip() == 'KM Covered' and cellValue.strip() == 'Amount':
+                    print cellValue
+#
+# #for :
+#  #   print range
     for irow in range(startRow, endRow):  # row 11 to 31
         row = sheet[irow]
         for icell in range(startCol, endCol):  # cell C to M
@@ -45,7 +50,7 @@ for sheet in wb.worksheets:
             # print cell.coordinate
             print cell.value
 
-print ("Highest col",icell.get_highest_column())
+#print ("Highest col",icell.get_highest_column())
 
 Final_ws = wb.create_sheet()
 Final_ws.title = "All Data"
