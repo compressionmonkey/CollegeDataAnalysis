@@ -1,66 +1,92 @@
-# Read in excel data
 from openpyxl import utils
 from openpyxl import workbook
 from openpyxl import load_workbook
-wb = load_workbook('Hiace2015.xlsx', data_only=True) #show real number instead of excel formulas
-print wb.worksheets
+import csv
+import os
+from os.path import join, getsize
+
+
+Directory = "/Users/pc/Desktop/DataScientistRTC/DataScientists/Admin"
+for root, dirs, files in os.walk(Directory, topdown=False): # We will walk across directory bottom-up approach
+#the root is the directory, dirs is sub directory from root and files is all files from root and directories
+
+   print root, 'takes', sum(getsize(join(root, name)) for name in files), "bytes in", len(files), "non-directory files"
+# joins "/Users/pc/Desktop/DataScientistRTC/DataScientists/Admin" + "/filename"
+   fileList = [] # lets create a list
+
+   for name in os.listdir(Directory): # lists directories in an arbitrary order i.e
+#Hiace Bus POL2015.xlsx
+#TATA Bus POL 2015.xlsx
+#Tata SFC Pick up (1).xlsx
+#We want it in a list for indexing
+       if name.endswith(".xlsx"): # let's look for xlsx files
+           fileList.append(name) # we now have the list of excel files
+       print fileList
+
+ofile = open('rtc_vehicles.csv', "wb")
+writer = csv.writer(ofile, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
+header = []
+header.append('Sheet Name')
+header.append('Date')
+header.append('KM Covered')
+header.append('Amount$')
+writer.writerow(header)
+
+#for look finding xlsx files
+# Read in excel data
+wb = load_workbook('Hiace2015.xlsx', data_only=True)
 
 startRow = 0
 endRow = 0
 startCol = 0
 endCol = 0
 
-
-
 for sheet in wb.worksheets:
+    title = sheet.title
     for row in sheet.iter_rows():
-        #print row
         for cell in row:
-            if cell.value == 'SL #': # Sets a condition for finding SL to assign values to our range
+            cellValue = cell.value
+            if cellValue == 'SL #':
                 coord = cell.coordinate
                 t = utils.coordinate_from_string(coord)
-                startCol = utils.column_index_from_string(t[0])
-                #startCol = t[0]
+                startCol = utils.column_index_from_string(t[0])-1
                 startRow = t[1]+4
-#
-            cellValue = cell.value
+
             if type(cellValue) is unicode:
                 if cellValue.strip() == 'Total':
                     coord = cell.coordinate
                     t = utils.coordinate_from_string(coord)
                     endCol = utils.column_index_from_string(t[0])+8
-                    #startCol = t[0]
                     endRow = t[1]-1
 
-                if cellValue.strip() == 'Date' and cellValue.strip() == 'KM Covered' and cellValue.strip() == 'Amount':
-                    print cellValue
-#
-# #for :
-#  #   print range
-    for irow in range(startRow, endRow):  # row 11 to 31
+    for irow in range(startRow, endRow):
         row = sheet[irow]
-        for icell in range(startCol, endCol):  # cell C to M
-            if cell.coordinate == "1":
-                a = cell.coordinate
-                a = a + 1
-
+        rowOut = []
+        rowOut.append(title)
+        for icell in range(startCol, endCol):
             cell = row[icell]
-            # if cell.coordinate > 'C10' and cell.coordinate < 'D12':
-            print "You are currently on sheet ", sheet.title, 'and cell number', cell.coordinate
-            # print cell.coordinate
-            print cell.value
+            cellValue = cell.value
+            coord = cell.coordinate
+            t = utils.coordinate_from_string(coord)
+            cellColumn = t[0]
+            cellColumNumber = utils.column_index_from_string(cellColumn)
+            if cellColumNumber==startCol+2:
+                rowOut.append(cellValue)
+                print coord
+                print cellValue
+            elif cellColumNumber==startCol+5:
+                rowOut.append(cellValue)
+                print coord
+                print cellValue
+            elif cellColumNumber==startCol+10:
+                rowOut.append(cellValue)
+                print coord
+                print cellValue
 
-#print ("Highest col",icell.get_highest_column())
-
-Final_ws = wb.create_sheet()
-Final_ws.title = "All Data"
-#wb.save('Hiace2015New.xlsx')
+        writer.writerow(rowOut)
 
 
-
-
-
-
+ofile.close()
 
 # sheet = dict(wb.active) # activating is an attribute and not a method
 # sheetnames = list(wb.get_sheet_names())
