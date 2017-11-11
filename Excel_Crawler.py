@@ -15,6 +15,7 @@ for root, dirs, files in os.walk(Directory, topdown=False): # We will walk acros
 # joins "/Users/pc/Desktop/DataScientistRTC/DataScientists/Admin" + "/filename"
    fileList = [] # lets create a list
 
+def FindingXL(Directory= "/Users/pc/Desktop/DataScientists/Admin", wb)
    for name in os.listdir(Directory): # lists directories in an arbitrary order i.e
 #Hiace Bus POL2015.xlsx
 #TATA Bus POL 2015.xlsx
@@ -26,15 +27,15 @@ for root, dirs, files in os.walk(Directory, topdown=False): # We will walk acros
 
             wb = load_workbook(fileList, data_only=True)
 
-
-ofile = open('rtc_vehicles.csv', "wb")
-writer = csv.writer(ofile, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
-header = []
-header.append('Sheet Name')
-header.append('Date')
-header.append('KM Covered')
-header.append('Amount$')
-writer.writerow(header)
+def createCSV(Directory= "/Users/pc/Desktop/DataScientists/Admin", wb)
+    ofile = open('rtc_vehicles.csv', "wb")
+    writer = csv.writer(ofile, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
+    header = []
+    header.append('Sheet Name')
+    header.append('Date')
+    header.append('KM Covered')
+    header.append('Amount$')
+    writer.writerow(header)
 
 #for look finding xlsx files
 # Read in excel data
@@ -45,52 +46,53 @@ endRow = 0
 startCol = 0
 endCol = 0
 
-for sheet in wb.worksheets:
-    title = sheet.title
-    for row in sheet.iter_rows():
-        for cell in row:
-            cellValue = cell.value
-            if cellValue == 'SL #':
-                coord = cell.coordinate
-                t = utils.coordinate_from_string(coord)
-                startCol = utils.column_index_from_string(t[0])-1
-                startRow = t[1]+4
-
-            if type(cellValue) is unicode:
-                if cellValue.strip() == 'Total':
+def Crawler():
+    for sheet in wb.worksheets:
+        title = sheet.title
+        for row in sheet.iter_rows():
+            for cell in row:
+                cellValue = cell.value
+                if cellValue == 'SL #':
                     coord = cell.coordinate
                     t = utils.coordinate_from_string(coord)
-                    endCol = utils.column_index_from_string(t[0])+8
-                    endRow = t[1]-1
+                    startCol = utils.column_index_from_string(t[0])-1
+                    startRow = t[1]+4
 
-    for irow in range(startRow, endRow):
-        row = sheet[irow]
-        rowOut = []
-        rowOut.append(title)
-        for icell in range(startCol, endCol):
-            cell = row[icell]
-            cellValue = cell.value
-            coord = cell.coordinate
-            t = utils.coordinate_from_string(coord)
-            cellColumn = t[0]
-            cellColumNumber = utils.column_index_from_string(cellColumn)
-            if cellColumNumber==startCol+2:
-                rowOut.append(cellValue)
-                print coord
-                print cellValue
-            elif cellColumNumber==startCol+5:
-                rowOut.append(cellValue)
-                print coord
-                print cellValue
-            elif cellColumNumber==startCol+10:
-                rowOut.append(cellValue)
-                print coord
-                print cellValue
+                if type(cellValue) is unicode:
+                    if cellValue.strip() == 'Total':
+                        coord = cell.coordinate
+                        t = utils.coordinate_from_string(coord)
+                        endCol = utils.column_index_from_string(t[0])+8
+                        endRow = t[1]-1
 
-        writer.writerow(rowOut)
+        for irow in range(startRow, endRow):
+            row = sheet[irow]
+            rowOut = []
+            rowOut.append(title)
+            for icell in range(startCol, endCol):
+                cell = row[icell]
+                cellValue = cell.value
+                coord = cell.coordinate
+                t = utils.coordinate_from_string(coord)
+                cellColumn = t[0]
+                cellColumNumber = utils.column_index_from_string(cellColumn)
+                if cellColumNumber==startCol+2:
+                    rowOut.append(cellValue)
+                    print coord
+                    print cellValue
+                elif cellColumNumber==startCol+5:
+                    rowOut.append(cellValue)
+                    print coord
+                    print cellValue
+                elif cellColumNumber==startCol+10:
+                    rowOut.append(cellValue)
+                    print coord
+                    print cellValue
+
+            writer.writerow(rowOut)
 
 
-ofile.close()
+    ofile.close()
 
 # sheet = dict(wb.active) # activating is an attribute and not a method
 # sheetnames = list(wb.get_sheet_names())
