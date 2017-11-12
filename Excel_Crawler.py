@@ -4,6 +4,14 @@ import csv
 import os
 
 
+# for root, dirs, files in os.walk(Directory, topdown=False): # We will walk across directory bottom-up approach
+# #the root is the directory, dirs is sub directory from root and files is all files from root and directories
+#
+#    print root, 'takes', sum(getsize(join(root, name)) for name in files), "bytes in", len(files), "non-directory files"
+# # joins "/Users/pc/Desktop/DataScientistRTC/DataScientists/Admin" + "/filename"
+#    fileList = [] # lets create a list
+
+def FindingXL(directory):
 def FindingXL(directory):
     ofile = open('rtc_vehicles.csv', "wb")
     writer = csv.writer(ofile, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
@@ -77,6 +85,9 @@ def Crawler(wb,writer,name):
                     print cellValue
 
             writer.writerow(rowOut)
+
+defaultDirectory = "/home/troy/Downloads/Admin"
+FindingXL(defaultDirectory)
 
 defaultDirectory = "/Users/pc/Desktop/DataScientists/Admin"
 FindingXL(defaultDirectory)
