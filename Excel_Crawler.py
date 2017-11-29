@@ -11,7 +11,7 @@ import os
 # # joins "/Users/pc/Desktop/DataScientistRTC/DataScientists/Admin" + "/filename"
 #    fileList = [] # lets create a list
 
-def FindingXL(directory):
+
 def FindingXL(directory):
     ofile = open('rtc_vehicles.csv', "wb")
     writer = csv.writer(ofile, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
@@ -86,8 +86,6 @@ def Crawler(wb,writer,name):
 
             writer.writerow(rowOut)
 
-defaultDirectory = "/home/troy/Downloads/Admin"
-FindingXL(defaultDirectory)
-
 defaultDirectory = "/Users/pc/Desktop/DataScientists/Admin"
 FindingXL(defaultDirectory)
+
