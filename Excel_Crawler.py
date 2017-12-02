@@ -1,9 +1,7 @@
 from openpyxl import utils
-from openpyxl import workbook
 from openpyxl import load_workbook
 import csv
 import os
-from os.path import join, getsize
 
 
 # for root, dirs, files in os.walk(Directory, topdown=False): # We will walk across directory bottom-up approach
@@ -12,6 +10,7 @@ from os.path import join, getsize
 #    print root, 'takes', sum(getsize(join(root, name)) for name in files), "bytes in", len(files), "non-directory files"
 # # joins "/Users/pc/Desktop/DataScientistRTC/DataScientists/Admin" + "/filename"
 #    fileList = [] # lets create a list
+
 
 def FindingXL(directory):
     ofile = open('rtc_vehicles.csv', "wb")
@@ -47,7 +46,7 @@ def Crawler(wb,writer,name):
                     coord = cell.coordinate
                     t = utils.coordinate_from_string(coord)
                     startCol = utils.column_index_from_string(t[0])-1
-                    startRow = t[1]+4
+                    startRow = t[1]+3
 
                 if type(cellValue) is unicode:
                     if cellValue.strip() == 'Total':
@@ -87,5 +86,6 @@ def Crawler(wb,writer,name):
 
             writer.writerow(rowOut)
 
-defaultDirectory = "/home/troy/Downloads/Admin"
+defaultDirectory = "/Users/pc/Desktop/DataScientists/Admin"
 FindingXL(defaultDirectory)
+
