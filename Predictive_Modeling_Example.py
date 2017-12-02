@@ -72,7 +72,7 @@ for var in num_cat_cols:
     fpr, tpr, _ = roc_curve(y_validate, status[:, 1])
     roc_auc = auc(fpr, tpr)
     print roc_auc
-and
+
     final_status = rf.predict_proba(x_test)
     test["Class12PercentGrade"] = final_status[:, 1]
     test.to_csv('model_output.csv', columns=[ID_col, target_col])
